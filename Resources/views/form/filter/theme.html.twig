@@ -1,0 +1,79 @@
+{% extends 'bootstrap_3_layout.html.twig' %}
+
+{% use '@WucdbmWucdbm/form/filter/fields.html.twig' %}
+
+{%- block _rest -%}
+    {% for child in form -%}
+        {% if not child.rendered %}
+            {{- form_row(child) -}}
+        {% endif %}
+    {%- endfor %}
+{% endblock _rest %}
+
+{% block form_row %}
+    {% spaceless %}
+        {{ form_widget(form) }}
+    {% endspaceless %}
+{% endblock form_row %}
+
+{% block form %}
+    {% spaceless %}
+        <div class="row">
+            {{ form_start(form) }}
+            <div class="col-lg-12">
+                {{form_rest(form)}}
+            </div>
+            <div class="clearfix"></div>
+            {{ form_end(form) }}
+        </div>
+    {% endspaceless %}
+{% endblock form %}
+
+{% block form_widget %}
+    {% spaceless %}
+        <div class="col-lg-2 col-md-3 col-sm-3 col-xs-12">
+            <div class="row">
+                {% if compound %}
+                    {{ block('form_widget_compound') }}
+                {% else %}
+                    {{ block('form_widget_simple') }}
+                {% endif %}
+            </div>
+        </div>
+    {% endspaceless %}
+{% endblock form_widget %}
+
+{% block date_widget %}
+    {% spaceless %}
+        <div class="col-lg-2 col-md-3 col-sm-3 col-xs-12">
+            <div class="row">
+                {% if compound %}
+                    {{ block('form_widget_compound') }}
+                {% else %}
+                    {{ block('form_widget_simple') }}
+                {% endif %}
+            </div>
+        </div>
+    {% endspaceless %}
+{% endblock date_widget %}
+
+{% block hidden_widget %}
+    {% spaceless %}
+        {% set type = type|default('hidden') %}
+        {{ block('form_widget_simple') }}
+    {% endspaceless %}
+{% endblock hidden_widget %}
+
+{% block choice_widget %}
+    {% spaceless %}
+        <div class="col-lg-2 col-md-3 col-sm-3 col-xs-12">
+            <div class="row">
+                {% if expanded %}
+                    {{ block('choice_widget_expanded') }}
+                {% else %}
+                    {{ block('choice_widget_collapsed') }}
+                {% endif %}
+            </div>
+        </div>
+    {% endspaceless %}
+{% endblock choice_widget %}

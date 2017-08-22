@@ -1,0 +1,25 @@
+<container xmlns="http://symfony.com/schema/dic/services"
+           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+           xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+
+    <services>
+
+        <!-- Form Filter Types -->
+        <service id="Wucdbm\Bundle\QuickUIBundle\Form\Filter\BasicFilterType">
+            <tag name="form.type"/>
+        </service>
+        <service id="Wucdbm\Bundle\QuickUIBundle\Form\Filter\PlaceholderType">
+            <tag name="form.type"/>
+        </service>
+        <service id="Wucdbm\Bundle\QuickUIBundle\Form\Filter\TextFilterType">
+            <tag name="form.type"/>
+        </service>
+        <service id="Wucdbm\Bundle\QuickUIBundle\Form\Filter\DateRangeFilterType">
+            <tag name="form.type"/>
+        </service>
+        <service id="Wucdbm\Bundle\QuickUIBundle\Form\Filter\EntityFilterType">
+            <tag name="form.type"/>
+        </service>
+
+    </services>
+</container>

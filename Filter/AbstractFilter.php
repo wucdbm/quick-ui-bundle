@@ -308,7 +308,13 @@ class AbstractFilter {
      * @param int $page
      */
     public function setPage($page) {
-        $this->page = $page;
+        if (!is_numeric($page)) {
+            $page = 0;
+        }
+
+        $this->page = intval($page);
+
+        return $this;
     }
 
     /**

@@ -12,10 +12,6 @@ use Symfony\Component\HttpFoundation\Request;
  */
 class AbstractFilter {
 
-    private $page = 1;
-
-    private $limit = 20;
-
     /**
      * Page Request var name
      * @var string
@@ -126,16 +122,33 @@ class AbstractFilter {
         $bag = $this->getBagByType($request, $type);
         $vars = $this->getVars($bag, $namespace);
         $page = array_key_exists($this->getPageVar(), $vars) ? $vars[$this->getPageVar()] : 1;
-        $limit = array_key_exists($this->getLimitVar(), $vars) ? $vars[$this->getLimitVar()] : $this->getLimit();
-        if (0 == $limit) {
-            $limit = null;
+
+        if (array_key_exists($this->getLimitVar(), $vars)) {
+            $limit = $vars[$this->getLimitVar()];
+            $this->setLimit($limit);
         }
+
         $this->setPage($page);
         $pagination = $this->getPagination();
         $pagination->setPage($page);
-        $pagination->setLimit($limit);
         $pagination->setParams(array_merge_recursive($bag->all(), $request->get('_route_params')));
         $pagination->setRoute($request->get('_route'));
+    }
+
+    public function getLimit() {
+        return $this->getPagination()->getLimit();
+    }
+
+    public function setLimit($limit) {
+        $this->getPagination()->setLimit($limit);
+    }
+
+    public function getPage() {
+        $this->getPagination()->getPage();
+    }
+
+    public function setPage($page) {
+        $this->getPagination()->setPage($page);
     }
 
     /**
@@ -298,20 +311,6 @@ class AbstractFilter {
     }
 
     /**
-     * @return int
-     */
-    public function getPage() {
-        return $this->page;
-    }
-
-    /**
-     * @param int $page
-     */
-    public function setPage($page) {
-        $this->page = $page;
-    }
-
-    /**
      * @return Pagination
      */
     public function getPagination() {
@@ -337,20 +336,6 @@ class AbstractFilter {
      */
     public function setPaginationParams($paginationParams) {
         $this->paginationParams = $paginationParams;
-    }
-
-    /**
-     * @return int
-     */
-    public function getLimit() {
-        return $this->limit;
-    }
-
-    /**
-     * @param int $limit
-     */
-    public function setLimit($limit) {
-        $this->limit = $limit;
     }
 
     /**

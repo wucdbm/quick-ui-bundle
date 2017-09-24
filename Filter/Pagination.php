@@ -3,10 +3,13 @@
 namespace Wucdbm\Bundle\QuickUIBundle\Filter;
 
 class Pagination {
+    
+    const DEFAULT_PAGE = 1,
+        DEFAULT_LIMIT = 20;
 
-    protected $page = 1;
+    protected $page = self::DEFAULT_PAGE;
 
-    protected $limit = 20;
+    protected $limit = self::DEFAULT_LIMIT;
 
     protected $totalResults = null;
 
@@ -190,11 +193,39 @@ class Pagination {
     }
 
     /**
+     * @param $page
+     * @return $this
+     */
+    public function setPage($page) {
+        if (!is_numeric($page)) {
+            $page = self::DEFAULT_PAGE;
+        }
+
+        if (0 == $page) {
+            $page = self::DEFAULT_PAGE;
+        }
+        
+        $this->page = $page;
+        
+        return $this;
+    }
+
+    /**
      * @param $limit
      * @return $this
      */
     public function setLimit($limit) {
+        if (!is_numeric($limit)) {
+            $limit = self::DEFAULT_LIMIT;
+        }
+
+        if (0 == $limit) {
+            // Display ALL Results - No Limit!
+            $limit = null;
+        }
+        
         $this->limit = $limit;
+        
         return $this;
     }
 
@@ -213,15 +244,6 @@ class Pagination {
      */
     public function setMinPagesToUseTextInput($minPagesToUseTextInput) {
         $this->minPagesToUseTextInput = $minPagesToUseTextInput;
-        return $this;
-    }
-
-    /**
-     * @param $page
-     * @return $this
-     */
-    public function setPage($page) {
-        $this->page = $page;
         return $this;
     }
 

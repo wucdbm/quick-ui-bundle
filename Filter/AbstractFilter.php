@@ -2,7 +2,7 @@
 
 namespace Wucdbm\Bundle\QuickUIBundle\Filter;
 
-use Symfony\Component\Form\Form;
+use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\ParameterBag;
 use Symfony\Component\HttpFoundation\Request;
 
@@ -207,10 +207,10 @@ class AbstractFilter {
 
     /**
      * @param Request $request
-     * @param Form $form
+     * @param FormInterface $form
      * @return $this
      */
-    public function load(Request $request, Form $form) {
+    public function load(Request $request, FormInterface $form) {
         $this->_load($request, $form->getConfig()->getMethod(), $form->getName());
         $form->handleRequest($request);
 

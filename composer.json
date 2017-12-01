@@ -2,7 +2,11 @@
     "name": "wucdbm/quick-ui-bundle",
     "type": "symfony-bundle",
     "description": "Quick UI helpers for Symfony projects",
-    "keywords": ["symfony ui", "symfony quick ui", "wucdbm"],
+    "keywords": [
+        "symfony ui",
+        "symfony quick ui",
+        "wucdbm"
+    ],
     "authors": [
         {
             "name": "Martin Kirilov",
@@ -12,10 +16,18 @@
     ],
     "require": {
         "php": "~7.0",
-        "symfony/symfony": "~2.0|~3.0"
+        "symfony/form": "~3.0|~4.0",
+        "symfony/doctrine-bridge": "~3.0|~4.0",
+        "symfony/http-foundation": "~3.0|4.0",
+        "symfony/http-kernel": "~3.0|4.0",
+        "symfony/dependency-injection": "~3.0|~4.0",
+        "symfony/config": "~3.0|~4.0",
+        "doctrine/orm": "~2.5"
     },
     "autoload": {
-        "psr-4": { "Wucdbm\\Bundle\\QuickUIBundle\\": "" }
+        "psr-4": {
+            "Wucdbm\\Bundle\\QuickUIBundle\\": "src"
+        }
     },
     "license": "GPL-3.0"
 }

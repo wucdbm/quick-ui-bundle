@@ -7,7 +7,7 @@ use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Loader\XmlFileLoader;
 use Symfony\Component\HttpKernel\DependencyInjection\Extension;
 
-class QuickUIExtension extends Extension {
+class WucdbmgQuickUIExtension extends Extension {
 
     public function load(array $configs, ContainerBuilder $container) {
         $config = array();

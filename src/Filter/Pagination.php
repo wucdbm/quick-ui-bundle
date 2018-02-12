@@ -1,11 +1,23 @@
 <?php
 
+/*
+ * This file is part of the WucdbmQuickUIBundle package.
+ *
+ * Copyright (c) Martin Kirilov <martin@forci.com>
+ *
+ * Author Martin Kirilov <martin@forci.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace Wucdbm\Bundle\QuickUIBundle\Filter;
 
 class Pagination {
-    
-    const DEFAULT_PAGE = 1,
-        DEFAULT_LIMIT = 20;
+
+    const DEFAULT_PAGE = 1;
+
+    const DEFAULT_LIMIT = 20;
 
     protected $page = self::DEFAULT_PAGE;
 
@@ -19,7 +31,7 @@ class Pagination {
 
     protected $route = null;
 
-    protected $params = array();
+    protected $params = [];
 
     protected $range = 3;
 
@@ -27,12 +39,12 @@ class Pagination {
 
     protected $showFirstLast = false;
 
-    protected $labels = array(
+    protected $labels = [
         'first' => '<i class="fa fa-angle-double-left"></i>',
         'last' => '<i class="fa fa-angle-double-right"></i>',
         'prev' => '<i class="fa fa-angle-left"></i>',
         'next' => '<i class="fa fa-angle-right"></i>'
-    );
+    ];
 
     protected $enabled = false;
 
@@ -42,7 +54,8 @@ class Pagination {
     private $filter = null;
 
     /**
-     * Returne previous page
+     * Returne previous page.
+     *
      * @return mixed
      */
     public function getPrevPage() {
@@ -50,30 +63,35 @@ class Pagination {
     }
 
     /**
-     * Returne next page
-     * @return null|integer
+     * Returne next page.
+     *
+     * @return null|int
      */
     public function getNextPage() {
         return $this->page + 1 > $this->getTotalPages() ? null : $this->page + 1;
     }
 
     /**
-     * Returns offset for use by Doctrine when calculating query offset
-     * @return integer
+     * Returns offset for use by Doctrine when calculating query offset.
+     *
+     * @return int
      */
     public function getOffset() {
         $page = ($this->page - 1) >= 0 ? ($this->page - 1) : 0;
+
         return $page * $this->limit;
     }
 
     /**
-     * Returns total pages based on total items count divided by items per page
-     * @return boolean
+     * Returns total pages based on total items count divided by items per page.
+     *
+     * @return bool
      */
     public function getTotalPages() {
         if (empty($this->limit)) {
             return 0;
         }
+
         return ceil($this->totalResults / $this->limit);
     }
 
@@ -90,14 +108,16 @@ class Pagination {
             return false;
         }
         $pages = range(1, $this->getTotalPages());
-        if (count($pages) === 1) {
+        if (1 === count($pages)) {
             return false;
         }
+
         return true;
     }
 
     public function get() {
         $pages = range(1, $this->getTotalPages());
+
         return $this->make($pages);
     }
 
@@ -106,9 +126,9 @@ class Pagination {
             $range = $this->getRange();
         }
         $page = $this->getPage();
-        $pages = array($page);
+        $pages = [$page];
         if ($range > 1) {
-            for ($i = 1; $i <= $range; $i++) {
+            for ($i = 1; $i <= $range; ++$i) {
                 $prev = $page - $i;
                 $next = $page + $i;
                 if ($this->pageExists($prev)) {
@@ -119,13 +139,15 @@ class Pagination {
                 }
             }
             sort($pages);
+
             return $this->make($pages);
         }
+
         return $this->make($page);
     }
 
     public function make($pages) {
-        $return = array();
+        $return = [];
         if ($this->isShowFirstLast() && $this->getPrevPage() && 1 != $this->getPrevPage()) {
             $return[$this->labels['first']] = $this->buildPaginationArray(1);
         }
@@ -141,6 +163,7 @@ class Pagination {
         if ($this->isShowFirstLast() && $this->getNextPage() && $this->getTotalPages() != $this->getNextPage()) {
             $return[$this->labels['last']] = $this->buildPaginationArray($this->getTotalPages());
         }
+
         return $return;
     }
 
@@ -149,12 +172,14 @@ class Pagination {
         if (in_array($page, $pages)) {
             return true;
         }
+
         return false;
     }
 
     public function buildPaginationArray($page) {
         $params = $this->getParams();
         $params['page'] = $page;
+
         return $params;
     }
 
@@ -169,14 +194,15 @@ class Pagination {
 
     public function getVars($skip = null) {
         if (!is_array($skip) && $skip) {
-            $skip = array($skip);
+            $skip = [$skip];
         } else {
-            $skip = array();
+            $skip = [];
         }
         $params = $this->getParams();
         foreach ($skip as $var) {
             unset($params[$var]);
         }
+
         return $params;
     }
 
@@ -194,6 +220,7 @@ class Pagination {
 
     /**
      * @param $page
+     *
      * @return $this
      */
     public function setPage($page) {
@@ -204,14 +231,15 @@ class Pagination {
         if (0 == $page) {
             $page = self::DEFAULT_PAGE;
         }
-        
+
         $this->page = $page;
-        
+
         return $this;
     }
 
     /**
      * @param $limit
+     *
      * @return $this
      */
     public function setLimit($limit) {
@@ -223,63 +251,75 @@ class Pagination {
             // Display ALL Results - No Limit!
             $limit = null;
         }
-        
+
         $this->limit = $limit;
-        
+
         return $this;
     }
 
     /**
      * @param $minPagesToUseSelect
+     *
      * @return $this
      */
     public function setMinPagesToUseSelect($minPagesToUseSelect) {
         $this->minPagesToUseSelect = $minPagesToUseSelect;
+
         return $this;
     }
 
     /**
      * @param $minPagesToUseTextInput
+     *
      * @return $this
      */
     public function setMinPagesToUseTextInput($minPagesToUseTextInput) {
         $this->minPagesToUseTextInput = $minPagesToUseTextInput;
+
         return $this;
     }
 
     /**
      * @param $route
+     *
      * @return $this
      */
     public function setRoute($route) {
         $this->route = $route;
+
         return $this;
     }
 
     /**
      * @param $params
+     *
      * @return $this
      */
     public function setParams($params) {
         $this->params = $params;
+
         return $this;
     }
 
     /**
      * @param $totalResults
+     *
      * @return $this
      */
     public function setTotalResults($totalResults) {
         $this->totalResults = $totalResults;
+
         return $this;
     }
 
     /**
      * @param $enabled
+     *
      * @return $this
      */
     public function setEnabled($enabled) {
         $this->enabled = $enabled;
+
         return $this;
     }
 
@@ -292,6 +332,7 @@ class Pagination {
 
     /**
      * @param $showPrevNext
+     *
      * @return $this
      */
     public function setShowPrevNext($showPrevNext) {
@@ -302,6 +343,7 @@ class Pagination {
 
     /**
      * @param $showFirstLast
+     *
      * @return $this
      */
     public function setShowFirstLast($showFirstLast) {
@@ -312,10 +354,12 @@ class Pagination {
 
     /**
      * @param AbstractFilter $filter
+     *
      * @return $this
      */
     public function setFilter(AbstractFilter $filter) {
         $this->filter = $filter;
+
         return $this;
     }
 
@@ -351,9 +395,6 @@ class Pagination {
         return $this->page;
     }
 
-    /**
-     * @return null
-     */
     public function getRoute() {
         return $this->route;
     }
@@ -365,15 +406,12 @@ class Pagination {
         return $this->params;
     }
 
-    /**
-     * @return null
-     */
     public function getTotalResults() {
         return $this->totalResults;
     }
 
     /**
-     * @return boolean
+     * @return bool
      */
     public function isEnabled() {
         return $this->enabled;
@@ -394,17 +432,16 @@ class Pagination {
     }
 
     /**
-     * @return boolean
+     * @return bool
      */
     public function isShowPrevNext() {
         return $this->showPrevNext;
     }
 
     /**
-     * @return boolean
+     * @return bool
      */
     public function isShowFirstLast() {
         return $this->showFirstLast;
     }
-
 }

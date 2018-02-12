@@ -1,5 +1,16 @@
 <?php
 
+/*
+ * This file is part of the WucdbmQuickUIBundle package.
+ *
+ * Copyright (c) Martin Kirilov <martin@forci.com>
+ *
+ * Author Martin Kirilov <martin@forci.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace Wucdbm\Bundle\QuickUIBundle\Filter;
 
 use Symfony\Component\Form\FormInterface;
@@ -7,31 +18,34 @@ use Symfony\Component\HttpFoundation\ParameterBag;
 use Symfony\Component\HttpFoundation\Request;
 
 /**
- * Class AbstractFilter
- * @package Wucdbm\Bundle\QuickUIBundle\Filter
+ * Class AbstractFilter.
  */
 class AbstractFilter {
 
     /**
-     * Page Request var name
+     * Page Request var name.
+     *
      * @var string
      */
     private $pageVar = 'page';
 
     /**
-     * Limit Request var name
+     * Limit Request var name.
+     *
      * @var string
      */
     private $limitVar = 'limit';
 
     /**
-     * String NS for loading vars from Symfony Request object
+     * String NS for loading vars from Symfony Request object.
+     *
      * @var string
      */
     private $namespace = '';
 
     /**
-     * Request type - GET or POST
+     * Request type - GET or POST.
+     *
      * @var string
      */
     private $type = 'GET';
@@ -41,13 +55,13 @@ class AbstractFilter {
      */
     private $pagination = null;
 
-    private $paginationParams = array();
+    private $paginationParams = [];
 
     private $reflection = null;
 
-    private $_options = array(
+    private $_options = [
         self::OPTION_HYDRATION => self::OPTION_HYDRATION_OBJECT
-    );
+    ];
 
     const OPTION_HYDRATION = 'hydration';
     /* Hydration mode constants */
@@ -115,8 +129,8 @@ class AbstractFilter {
 
     /**
      * @param Request $request
-     * @param null $type
-     * @param string $namespace
+     * @param null    $type
+     * @param string  $namespace
      */
     protected function _load(Request $request, $type = null, $namespace = '') {
         $bag = $this->getBagByType($request, $type);
@@ -153,8 +167,9 @@ class AbstractFilter {
 
     /**
      * @param Request $request
-     * @param string $namespace
-     * @param null $type
+     * @param string  $namespace
+     * @param null    $type
+     *
      * @return $this
      */
     public function loadFromRequest(Request $request, $namespace = '', $type = null) {
@@ -206,8 +221,9 @@ class AbstractFilter {
     }
 
     /**
-     * @param Request $request
+     * @param Request       $request
      * @param FormInterface $form
+     *
      * @return $this
      */
     public function load(Request $request, FormInterface $form) {
@@ -220,6 +236,7 @@ class AbstractFilter {
     /**
      * @param Request $request
      * @param $type
+     *
      * @return ParameterBag
      */
     public function getBagByType(Request $request, $type = null) {
@@ -239,7 +256,7 @@ class AbstractFilter {
     public function getProtectedVars() {
         $reflection = $this->getReflection();
         $vars = $reflection->getProperties(\ReflectionProperty::IS_PROTECTED);
-        $ret = array();
+        $ret = [];
         foreach ($vars as $var) {
             $ret[] = $var->name;
         }
@@ -263,6 +280,7 @@ class AbstractFilter {
     /**
      * @param $name
      * @param $value
+     *
      * @throws \Exception
      */
     public function __set($name, $value) {
@@ -275,7 +293,9 @@ class AbstractFilter {
 
     /**
      * @param $name
+     *
      * @return mixed
+     *
      * @throws \Exception
      */
     public function __get($name) {
@@ -288,7 +308,7 @@ class AbstractFilter {
     }
 
     protected function createPropertyMissingException($name) {
-        return new \Exception('Filter ' . get_class($this) . ' does not have property [' . $name . ']. Maybe you forgot to implement it first?');
+        return new \Exception('Filter '.get_class($this).' does not have property ['.$name.']. Maybe you forgot to implement it first?');
     }
 
     public function __construct() {
@@ -393,5 +413,4 @@ class AbstractFilter {
     public function setType($type) {
         $this->type = $type;
     }
-
 }

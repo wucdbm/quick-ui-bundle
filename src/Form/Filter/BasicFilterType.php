@@ -1,5 +1,16 @@
 <?php
 
+/*
+ * This file is part of the WucdbmQuickUIBundle package.
+ *
+ * Copyright (c) Martin Kirilov <martin@forci.com>
+ *
+ * Author Martin Kirilov <martin@forci.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace Wucdbm\Bundle\QuickUIBundle\Form\Filter;
 
 use Symfony\Component\Form\AbstractType;
@@ -13,23 +24,23 @@ class BasicFilterType extends AbstractType {
 
     /**
      * @param FormBuilderInterface $builder
-     * @param array $options
+     * @param array                $options
      */
     public function buildForm(FormBuilderInterface $builder, array $options) {
         if ($options['enable_limit']) {
             $builder->add('limit', ChoiceType::class, [
                 'choices' => [
-                    'All'          => 0,
-                    '10 Results'   => 10,
-                    '20 Results'   => 20,
-                    '50 Results'   => 50,
-                    '100 Results'  => 100,
-                    '250 Results'  => 250,
-                    '500 Results'  => 500,
+                    'All' => 0,
+                    '10 Results' => 10,
+                    '20 Results' => 20,
+                    '50 Results' => 50,
+                    '100 Results' => 100,
+                    '250 Results' => 250,
+                    '500 Results' => 500,
                     '1000 Results' => 1000
                 ],
-                'label'   => false,
-                'attr'    => [
+                'label' => false,
+                'attr' => [
                     'class' => 'select2'
                 ]
             ]);
@@ -55,18 +66,17 @@ class BasicFilterType extends AbstractType {
      */
     public function configureOptions(OptionsResolver $resolver) {
         $resolver->setDefaults([
-            'attr'               => [
+            'attr' => [
                 'class' => 'autosubmit filter-form'
             ],
-            'method'             => 'GET',
-            'csrf_protection'    => false,
+            'method' => 'GET',
+            'csrf_protection' => false,
             'allow_extra_fields' => true,
-            'enable_limit'       => true
+            'enable_limit' => true
         ]);
     }
 
     public function getBlockPrefix() {
         return '';
     }
-
 }

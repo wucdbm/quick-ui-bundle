@@ -1,5 +1,16 @@
 <?php
 
+/*
+ * This file is part of the WucdbmQuickUIBundle package.
+ *
+ * Copyright (c) Martin Kirilov <martin@forci.com>
+ *
+ * Author Martin Kirilov <martin@forci.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace Wucdbm\Bundle\QuickUIBundle\Twig;
 
 use Symfony\Component\HttpFoundation\Request;
@@ -25,7 +36,6 @@ class ControllerActionName extends \Twig_Extension {
         ];
     }
 
-
     public function getFunctions() {
         return [
             new \Twig_SimpleFunction('controllerName', [$this, 'controllerName']),
@@ -38,7 +48,7 @@ class ControllerActionName extends \Twig_Extension {
     }
 
     /**
-     * Get current controller name
+     * Get current controller name.
      */
     public function controllerName() {
         $request = $this->stack->getCurrentRequest();
@@ -47,7 +57,7 @@ class ControllerActionName extends \Twig_Extension {
             $parts = explode('::', $string);
             $controller = $parts[0];
             $pattern = "#Controller\\\([a-zA-Z\\\]*)Controller#";
-            $matches = array();
+            $matches = [];
             preg_match($pattern, $controller, $matches);
             if (isset($matches[1])) {
                 return strtolower(str_replace('\\', '_', $matches[1]));
@@ -60,13 +70,13 @@ class ControllerActionName extends \Twig_Extension {
     }
 
     /**
-     * Get current action name
+     * Get current action name.
      */
     public function actionName() {
         $request = $this->stack->getCurrentRequest();
         if ($request instanceof Request) {
-            $pattern = "#::([a-zA-Z]*)Action#";
-            $matches = array();
+            $pattern = '#::([a-zA-Z]*)Action#';
+            $matches = [];
             preg_match($pattern, $request->get('_controller'), $matches);
             if (isset($matches[1])) {
                 return strtolower($matches[1]);
@@ -79,7 +89,7 @@ class ControllerActionName extends \Twig_Extension {
     }
 
     /**
-     * Get current route name
+     * Get current route name.
      */
     public function routeName() {
         $request = $this->stack->getCurrentRequest();
@@ -97,7 +107,7 @@ class ControllerActionName extends \Twig_Extension {
                     return $print;
                 }
             }
-        } else if (is_string($route)) {
+        } elseif (is_string($route)) {
             if ($this->_isRoute($route)) {
                 return $print;
             }
@@ -117,7 +127,7 @@ class ControllerActionName extends \Twig_Extension {
                     return $print;
                 }
             }
-        } else if (is_string($controller)) {
+        } elseif (is_string($controller)) {
             if ($this->_isController($controller)) {
                 return $print;
             }
@@ -137,7 +147,7 @@ class ControllerActionName extends \Twig_Extension {
                     return $print;
                 }
             }
-        } else if (is_string($action)) {
+        } elseif (is_string($action)) {
             if ($this->_isAction($action)) {
                 return $print;
             }
@@ -157,5 +167,4 @@ class ControllerActionName extends \Twig_Extension {
 
         return '';
     }
-
 }

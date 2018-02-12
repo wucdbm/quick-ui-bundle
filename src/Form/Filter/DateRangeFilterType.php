@@ -1,5 +1,16 @@
 <?php
 
+/*
+ * This file is part of the WucdbmQuickUIBundle package.
+ *
+ * Copyright (c) Martin Kirilov <martin@forci.com>
+ *
+ * Author Martin Kirilov <martin@forci.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace Wucdbm\Bundle\QuickUIBundle\Form\Filter;
 
 use Symfony\Component\Form\AbstractType;
@@ -13,17 +24,17 @@ class DateRangeFilterType extends AbstractType {
 
     /**
      * @param FormBuilderInterface $builder
-     * @param array $options
+     * @param array                $options
      */
     public function buildForm(FormBuilderInterface $builder, array $options) {
         $builder
             ->add($options['min_field_name'], HiddenDateType::class, [
-                'attr'   => [
+                'attr' => [
                     'class' => 'hidden min'
                 ]
             ])
             ->add($options['max_field_name'], HiddenDateType::class, [
-                'attr'   => [
+                'attr' => [
                     'class' => 'hidden max'
                 ]
             ])
@@ -47,11 +58,10 @@ class DateRangeFilterType extends AbstractType {
      */
     public function configureOptions(OptionsResolver $resolver) {
         $resolver->setDefaults([
-            'inherit_data'   => true,
+            'inherit_data' => true,
             'min_field_name' => 'date_min',
             'max_field_name' => 'date_max',
             'placeholder' => 'Period: From - To',
         ]);
     }
-
 }

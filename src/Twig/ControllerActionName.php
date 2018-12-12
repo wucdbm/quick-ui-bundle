@@ -94,7 +94,7 @@ class ControllerActionName extends \Twig_Extension {
      * Get current route name.
      */
     public function routeName() {
-        if (null === $this->currentRoute) {
+        if (!$this->currentRoute) {
             $request = $this->stack->getCurrentRequest();
 
             if ($request instanceof Request) {

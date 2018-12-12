@@ -18,10 +18,11 @@ use Symfony\Component\HttpFoundation\RequestStack;
 
 class ControllerActionName extends \Twig_Extension {
 
-    /**
-     * @var RequestStack
-     */
+    /** @var RequestStack */
     protected $stack;
+
+    /** @var string */
+    protected $currentRoute = '';
 
     public function __construct(RequestStack $stack) {
         $this->stack = $stack;
@@ -32,7 +33,8 @@ class ControllerActionName extends \Twig_Extension {
             new \Twig_SimpleFilter('isActionAndController', [$this, 'isActionAndController']),
             new \Twig_SimpleFilter('isController', [$this, 'isController']),
             new \Twig_SimpleFilter('isAction', [$this, 'isAction']),
-            new \Twig_SimpleFilter('isRoute', [$this, 'isRoute'])
+            new \Twig_SimpleFilter('isRoute', [$this, 'isRoute']),
+            new \Twig_SimpleFilter('routeStartsWith', [$this, 'routeStartsWith'])
         ];
     }
 
@@ -92,12 +94,15 @@ class ControllerActionName extends \Twig_Extension {
      * Get current route name.
      */
     public function routeName() {
-        $request = $this->stack->getCurrentRequest();
-        if ($request instanceof Request) {
-            return $request->get('_route');
+        if (null === $this->currentRoute) {
+            $request = $this->stack->getCurrentRequest();
+
+            if ($request instanceof Request) {
+                $this->currentRoute = $request->get('_route');
+            }
         }
 
-        return '';
+        return $this->currentRoute;
     }
 
     public function isRoute($route, $print = '') {
@@ -118,6 +123,26 @@ class ControllerActionName extends \Twig_Extension {
 
     protected function _isRoute($route) {
         return $this->routeName() == $route;
+    }
+
+    public function routeStartsWith($route, $print = '') {
+        if (is_array($route)) {
+            foreach ($route as $rt) {
+                if ($this->_routeStartsWith($rt)) {
+                    return $print;
+                }
+            }
+        } elseif (is_string($route)) {
+            if ($this->_routeStartsWith($route)) {
+                return $print;
+            }
+        }
+
+        return '';
+    }
+
+    protected function _routeStartsWith($route): bool {
+        return 0 === strpos($this->routeName(), $route);
     }
 
     public function isController($controller, $print = '') {

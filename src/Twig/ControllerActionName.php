@@ -125,6 +125,39 @@ class ControllerActionName extends \Twig_Extension {
         return $this->routeName() == $route;
     }
 
+    public function routeStartsWith($routes, $print = ''): string {
+        if (!is_array($routes)) {
+            $routes = [$routes];
+        }
+
+        foreach ($routes as $route) {
+            if (is_array($route)) {
+                $not = $route['not'];
+                $route = $route['route'];
+
+                if (is_array($not)) {
+                    foreach ($not as $notRoute) {
+                        if ($this->_routeStartsWith($notRoute)) {
+                            continue 2;
+                        }
+                    }
+                } elseif (is_string($not) && $this->_routeStartsWith($not)) {
+                    continue;
+                }
+
+                if ($this->_routeStartsWith($route)) {
+                    return $print;
+                }
+            } elseif (is_string($route)) {
+                if ($this->_routeStartsWith($route)) {
+                    return $print;
+                }
+            }
+        }
+
+        return '';
+    }
+
     public function routeStartsWith($route, $print = '') {
         if (is_array($route)) {
             foreach ($route as $rt) {

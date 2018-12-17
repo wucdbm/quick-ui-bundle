@@ -158,22 +158,6 @@ class ControllerActionName extends \Twig_Extension {
         return '';
     }
 
-    public function routeStartsWith($route, $print = '') {
-        if (is_array($route)) {
-            foreach ($route as $rt) {
-                if ($this->_routeStartsWith($rt)) {
-                    return $print;
-                }
-            }
-        } elseif (is_string($route)) {
-            if ($this->_routeStartsWith($route)) {
-                return $print;
-            }
-        }
-
-        return '';
-    }
-
     protected function _routeStartsWith($route): bool {
         return 0 === strpos($this->routeName(), $route);
     }

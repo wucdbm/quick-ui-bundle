@@ -59,6 +59,9 @@ class AbstractFilter {
 
     private $reflection = null;
 
+    /** @var float */
+    private $queryExecTime = 0;
+
     private $_options = [
         self::OPTION_HYDRATION => self::OPTION_HYDRATION_OBJECT
     ];
@@ -309,6 +312,14 @@ class AbstractFilter {
 
     protected function createPropertyMissingException($name) {
         return new \Exception('Filter '.get_class($this).' does not have property ['.$name.']. Maybe you forgot to implement it first?');
+    }
+
+    public function getQueryExecTime(): float {
+        return $this->queryExecTime;
+    }
+
+    public function setQueryExecTime(float $queryExecTime) {
+        $this->queryExecTime = $queryExecTime;
     }
 
     public function __construct() {

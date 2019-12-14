@@ -161,7 +161,7 @@ class AbstractFilter {
     }
 
     public function getPage() {
-        $this->getPagination()->getPage();
+        return $this->getPagination()->getPage();
     }
 
     public function setPage($page) {

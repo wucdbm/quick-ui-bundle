@@ -15,11 +15,11 @@ namespace Wucdbm\Bundle\QuickUIBundle\Form;
 
 use Symfony\Component\Form\AbstractType as SymfonyAbstractType;
 use Symfony\Component\Form\Extension\Core\DataTransformer\DateTimeToStringTransformer;
-use Symfony\Component\Form\Extension\Core\Type\HiddenType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class HiddenDateType extends SymfonyAbstractType {
+class TextDateType extends SymfonyAbstractType {
 
     public function buildForm(FormBuilderInterface $builder, array $options) {
         $transformer = new DateTimeToStringTransformer(
@@ -37,6 +37,6 @@ class HiddenDateType extends SymfonyAbstractType {
     }
 
     public function getParent() {
-        return HiddenType::class;
+        return TextType::class;
     }
 }

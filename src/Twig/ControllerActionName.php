@@ -15,8 +15,11 @@ namespace Wucdbm\Bundle\QuickUIBundle\Twig;
 
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
+use Twig\Extension\AbstractExtension;
+use Twig\TwigFilter;
+use Twig\TwigFunction;
 
-class ControllerActionName extends \Twig_Extension {
+class ControllerActionName extends AbstractExtension {
 
     /** @var RequestStack */
     protected $stack;
@@ -30,22 +33,22 @@ class ControllerActionName extends \Twig_Extension {
 
     public function getFilters() {
         return [
-            new \Twig_SimpleFilter('isActionAndController', [$this, 'isActionAndController']),
-            new \Twig_SimpleFilter('isController', [$this, 'isController']),
-            new \Twig_SimpleFilter('isAction', [$this, 'isAction']),
-            new \Twig_SimpleFilter('isRoute', [$this, 'isRoute']),
-            new \Twig_SimpleFilter('routeStartsWith', [$this, 'routeStartsWith'])
+            new TwigFilter('isActionAndController', [$this, 'isActionAndController']),
+            new TwigFilter('isController', [$this, 'isController']),
+            new TwigFilter('isAction', [$this, 'isAction']),
+            new TwigFilter('isRoute', [$this, 'isRoute']),
+            new TwigFilter('routeStartsWith', [$this, 'routeStartsWith'])
         ];
     }
 
     public function getFunctions() {
         return [
-            new \Twig_SimpleFunction('controllerName', [$this, 'controllerName']),
-            new \Twig_SimpleFunction('actionName', [$this, 'actionName']),
-            new \Twig_SimpleFunction('isActionAndController', [$this, 'isActionAndController']),
-            new \Twig_SimpleFunction('isController', [$this, 'isController']),
-            new \Twig_SimpleFunction('isAction', [$this, 'isAction']),
-            new \Twig_SimpleFunction('isRoute', [$this, 'isRoute'])
+            new TwigFunction('controllerName', [$this, 'controllerName']),
+            new TwigFunction('actionName', [$this, 'actionName']),
+            new TwigFunction('isActionAndController', [$this, 'isActionAndController']),
+            new TwigFunction('isController', [$this, 'isController']),
+            new TwigFunction('isAction', [$this, 'isAction']),
+            new TwigFunction('isRoute', [$this, 'isRoute'])
         ];
     }
 
